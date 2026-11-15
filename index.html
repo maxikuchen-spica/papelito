@@ -8,125 +8,147 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Caveat:wght@700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: una columna de celular sobre azul cobalto pleno; tarjetas blancas de borde grueso
-   y sombra dura; el papelito amarillo del sorteo es el único elemento torcido y manuscrito. */
+/* Layout: una columna de celular sobre azul profundo con luz suave; superficies blancas sin borde,
+   sombras blandas y botones píldora. El papelito amarillo manuscrito es el único gesto fuerte. */
 :root{
   color-scheme: light;
-  --azul:#2143D9;
-  --azul-hondo:#1832AE;
-  --tinta:#0F1845;
-  --papel:#FFF7E2;
-  --sol:#FFC83A;
-  --cinta:#FF574A;
+  --fondo:#1C33C7;
+  --luz:#4368FF;
+  --tinta:#0E1538;
+  --gris:#626B91;
+  --linea:#ECEEF7;
+  --suave:#F3F5FC;
   --blanco:#FFFFFF;
-  --gris:#5B648F;
-  --linea:#DDE2F6;
-  --ok:#128A5C;
+  --papel:#FFF8E4;
+  --sol:#FFCB45;
+  --wa:#17A34A;
+  --rojo:#E5484D;
+  --ok:#0C7A4E;
   --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
   --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mano:"Caveat","Comic Sans MS",cursive;
-  --r:22px;
+  --r:24px;
+  --sombra:0 1px 2px rgba(8,14,56,.08),0 14px 34px rgba(8,14,56,.20);
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
-body{background:var(--azul);color:var(--tinta);font-family:var(--f-body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body{background:var(--fondo);background-image:radial-gradient(120% 60% at 0% 0%,var(--luz) 0%,transparent 60%),radial-gradient(80% 45% at 100% 100%,rgba(255,203,69,.16) 0%,transparent 70%);background-attachment:fixed;color:var(--tinta);font-family:var(--f-body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}
 h1,h2,h3,p{margin:0}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.05}
-.app{max-width:480px;margin:0 auto;padding:20px 16px 48px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.08;letter-spacing:-.02em}
+.app{max-width:480px;margin:0 auto;padding:18px 16px 56px;display:flex;flex-direction:column;gap:16px}
 
 /* cabecera */
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--blanco)}
-.marca{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.02em}
-.marca i{display:block;width:26px;height:18px;background:var(--sol);border:2px solid var(--tinta);border-radius:3px;transform:rotate(-12deg);position:relative}
-.marca i::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid var(--tinta);opacity:.35}
-.volver{background:transparent;border:2px solid rgba(255,255,255,.55);color:var(--blanco);border-radius:999px;padding:8px 14px;font-weight:600;cursor:pointer}
-.titular{color:var(--blanco);display:flex;flex-direction:column;gap:8px}
-.titular h1{font-size:clamp(34px,10vw,44px);font-weight:800;letter-spacing:-.03em}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--blanco);min-height:40px}
+.marca{display:flex;align-items:center;gap:9px;font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:-.02em}
+.marca i{display:block;width:22px;height:15px;background:var(--sol);border-radius:3px;transform:rotate(-12deg);box-shadow:0 3px 8px rgba(8,14,56,.3)}
+.volver{background:rgba(255,255,255,.14);border:0;color:var(--blanco);border-radius:999px;padding:9px 15px;font-weight:600;font-size:14px;cursor:pointer;backdrop-filter:blur(6px)}
+.titular{color:var(--blanco);display:flex;flex-direction:column;gap:8px;padding:6px 2px 4px}
+.titular h1{font-size:clamp(30px,8.6vw,38px);font-weight:800;letter-spacing:-.03em}
 .titular h1 em{font-style:normal;color:var(--sol)}
-.titular p{color:#D6DEFF;max-width:34ch}
+.titular p{color:#D5DDFF;max-width:36ch}
 
-/* tarjetas */
-.card{background:var(--blanco);border:2px solid var(--tinta);border-radius:var(--r);box-shadow:0 5px 0 var(--tinta);padding:18px;display:flex;flex-direction:column;gap:14px}
-.card h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+/* superficies */
+.card{background:var(--blanco);border-radius:var(--r);box-shadow:var(--sombra);padding:20px;display:flex;flex-direction:column;gap:14px}
+.card h2{font-size:20px;font-weight:800}
 .fila{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--gris);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
-.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
-.pill.pend{background:var(--papel);border:1.5px solid var(--tinta)}
-.pill.listo{background:var(--ok);color:#fff}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--gris);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill.pend{background:#FFF1CC;color:#7A5200}
+.pill.listo{background:#DCF5E7;color:var(--ok)}
 .nota{color:var(--gris);font-size:14px}
-.cita{font-family:var(--f-mano);font-size:24px;line-height:1.1;color:var(--tinta)}
-.aviso{background:#FFE7E4;border:1.5px solid var(--cinta);border-radius:14px;padding:10px 12px;font-size:14px;font-weight:500}
-.info{background:var(--papel);border:1.5px dashed var(--tinta);border-radius:14px;padding:10px 12px;font-size:14px}
+.cita{font-family:var(--f-mano);font-size:24px;line-height:1.1}
+.aviso{background:#FDECEC;color:#8E1F23;border-radius:16px;padding:12px 14px;font-size:14px;font-weight:500}
+.info{background:rgba(255,255,255,.14);color:#fff;border-radius:16px;padding:10px 14px;font-size:14px}
+.pasos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:p}
+.pasos li{display:flex;gap:12px;align-items:flex-start;font-size:15px;counter-increment:p}
+.pasos li::before{content:counter(p);flex:none;width:26px;height:26px;border-radius:50%;background:var(--suave);color:var(--fondo);font-weight:700;font-size:13px;display:grid;place-items:center}
 
 /* lista de grupos */
-.grupo{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;width:100%;background:var(--blanco);border:2px solid var(--tinta);border-radius:var(--r);box-shadow:0 5px 0 var(--tinta);padding:16px 18px}
-.grupo h3{font-size:20px;font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
-.grupo:active{transform:translateY(3px);box-shadow:0 2px 0 var(--tinta)}
+.grupo{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:12px;width:100%;background:var(--blanco);border-radius:var(--r);box-shadow:var(--sombra);padding:18px 20px;transition:transform .12s}
+.grupo:active{transform:scale(.985)}
+.grupo h3{font-size:19px;font-weight:800;overflow-wrap:anywhere}
+.pila{display:flex;align-items:center}
+.pila .av{margin-left:-8px;box-shadow:0 0 0 2px #fff;width:30px;height:30px;font-size:11px}
+.pila .av:first-child{margin-left:0}
+.pila .mas{margin-left:8px;color:var(--gris);font-size:13px;font-weight:600}
+
+/* avatar */
+.av{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;letter-spacing:.02em}
 
 /* botones */
-.btn{appearance:none;border:2px solid var(--tinta);border-radius:16px;background:var(--blanco);padding:12px 16px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 var(--tinta);text-decoration:none;color:var(--tinta);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;transition:transform .08s,box-shadow .08s}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--tinta)}
-.btn.sol{background:var(--sol)}
-.btn.wa{background:#25D366}
-.btn.rojo{background:var(--cinta);color:#fff}
-.btn.grande{font-family:var(--f-display);font-size:20px;font-weight:800;padding:16px;width:100%}
-.btn.chico{padding:8px 12px;font-size:14px;border-radius:12px;box-shadow:0 3px 0 var(--tinta)}
-.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:0 4px 0 var(--tinta);transform:none}
-.link{background:none;border:0;padding:4px 0;color:var(--gris);font-weight:600;text-decoration:underline;cursor:pointer;font-size:14px}
+.btn{appearance:none;border:0;border-radius:999px;background:var(--suave);padding:12px 18px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--tinta);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;transition:transform .1s,filter .1s}
+.btn:active{transform:scale(.97);filter:brightness(.96)}
+.btn.sol{background:var(--sol);box-shadow:0 8px 20px rgba(255,203,69,.32)}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.rojo{background:var(--rojo);color:#fff}
+.btn.grande{font-size:17px;padding:16px 20px;width:100%}
+.btn.chico{padding:9px 14px;font-size:14px}
+.btn.claro{background:rgba(255,255,255,.14);color:#fff}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+.btn svg{width:17px;height:17px;flex:none}
+.link{background:none;border:0;padding:4px 0;color:var(--gris);font-weight:600;cursor:pointer;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.link.azul{color:var(--fondo);text-decoration:none}
 :focus-visible{outline:3px solid var(--sol);outline-offset:2px}
-.card :focus-visible,.sheet :focus-visible{outline-color:var(--azul)}
+.card :focus-visible,.sheet :focus-visible{outline-color:var(--fondo)}
 
 /* formularios */
-label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px}
-input[type=text],input[type=date],input[type=number]{width:100%;border:2px solid var(--tinta);border-radius:14px;padding:12px 14px;background:var(--blanco);font-size:16px;min-height:48px}
-input::placeholder{color:#9AA2C4}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.sumar{display:flex;gap:8px}
-.sumar input{flex:1;min-width:0}
+label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13px;color:var(--gris)}
+input[type=text],input[type=tel],input[type=date],input[type=number]{width:100%;border:1.5px solid transparent;border-radius:14px;padding:12px 14px;background:var(--suave);font-size:16px;min-height:48px;color:var(--tinta);font-weight:500}
+input:focus{outline:none;border-color:var(--fondo);background:#fff}
+input::placeholder{color:#9BA3C4;font-weight:400}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sumar{display:flex;flex-direction:column;gap:10px}
 
 /* participantes */
 .gente{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.gente li{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-top:1.5px solid var(--linea)}
-.gente li:first-child{border-top:0;padding-top:0}
-.nombre{font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.gente li{display:flex;flex-direction:column;gap:10px;padding:14px 0;border-top:1px solid var(--linea)}
+.gente li:first-child{border-top:0;padding-top:2px}
+.gente li:last-child{padding-bottom:2px}
+.pers{display:flex;align-items:center;gap:12px;min-width:0}
+.pers .txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.nombre{font-weight:700;font-size:16px;overflow-wrap:anywhere}
+.sub{color:var(--gris);font-size:13px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.x{background:none;border:0;color:var(--gris);font-size:22px;line-height:1;padding:4px 8px;cursor:pointer}
-.enviado{color:var(--ok);font-size:13px;font-weight:700}
+.enviado{color:var(--ok);font-size:13px;font-weight:700;white-space:nowrap}
+.barra{height:6px;border-radius:999px;background:var(--linea);overflow:hidden}
+.barra span{display:block;height:100%;background:var(--wa);border-radius:999px;transition:width .3s}
 
 /* modal */
-.velo{position:fixed;inset:0;background:rgba(15,24,69,.6);display:flex;align-items:flex-end;justify-content:center;z-index:10}
-.sheet{background:var(--blanco);border:2px solid var(--tinta);border-bottom:0;border-radius:26px 26px 0 0;width:100%;max-width:480px;max-height:88%;overflow:auto;padding:22px 18px 28px;display:flex;flex-direction:column;gap:14px;animation:sube .22s ease-out}
-.sheet h2{font-size:22px;font-weight:800}
-.excl{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1.5px solid var(--linea)}
-.sw{border:2px solid var(--tinta);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;background:var(--blanco);cursor:pointer;white-space:nowrap}
-.sw.on{background:var(--cinta);color:#fff}
-.copia{font-size:13px;word-break:break-all}
-@keyframes sube{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+.velo{position:fixed;inset:0;background:rgba(8,14,56,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{background:var(--blanco);border-radius:28px 28px 0 0;width:100%;max-width:480px;max-height:90%;overflow:auto;padding:10px 20px 28px;display:flex;flex-direction:column;gap:14px;animation:sube .24s cubic-bezier(.2,.9,.3,1)}
+.sheet::before{content:"";align-self:center;width:38px;height:4px;border-radius:99px;background:#D7DBEC;margin-bottom:6px;flex:none}
+.sheet h2{font-size:21px;font-weight:800}
+.sheet form{display:flex;flex-direction:column;gap:14px}
+.excl{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--linea)}
+.excl:first-child{border-top:0}
+.sw{border:0;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700;background:var(--suave);cursor:pointer;white-space:nowrap}
+.sw.on{background:var(--rojo);color:#fff}
+.copia{font-size:13px;word-break:break-all;background:var(--suave);border-radius:14px;padding:12px}
+@keyframes sube{from{transform:translateY(40px);opacity:.3}to{transform:none;opacity:1}}
 
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:20;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:11px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:20;max-width:calc(100% - 32px);text-align:center;box-shadow:0 10px 30px rgba(8,14,56,.4)}
 
 /* revelación */
-.revela{align-items:stretch;text-align:center;color:var(--blanco);gap:22px}
+.revela{align-items:stretch;text-align:center;color:var(--blanco);gap:22px;padding-top:26px}
 .revela .hola{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,10vw,46px);letter-spacing:-.03em;line-height:1}
-.revela .sub{color:#D6DEFF}
-.slip{appearance:none;border:2px solid var(--tinta);cursor:pointer;margin:10px auto 6px;width:min(100%,340px);min-height:210px;background:var(--sol);color:var(--tinta);border-radius:8px;box-shadow:0 8px 0 var(--tinta);transform:rotate(-4deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:22px;position:relative;animation:tiembla 2.6s ease-in-out infinite}
-.slip::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed rgba(15,24,69,.35)}
+.revela .sub2{color:#D5DDFF}
+.slip{appearance:none;border:0;cursor:pointer;margin:14px auto 8px;width:min(100%,330px);min-height:210px;background:var(--sol);color:var(--tinta);border-radius:10px;box-shadow:0 2px 0 rgba(255,255,255,.5) inset,0 24px 50px rgba(8,14,56,.45);transform:rotate(-4deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:22px;position:relative;animation:tiembla 2.6s ease-in-out infinite}
+.slip::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.5px dashed rgba(14,21,56,.25)}
 .slip .q{font-family:var(--f-display);font-weight:800;font-size:72px;line-height:1}
-.slip .toca{font-weight:700;background:var(--tinta);color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;position:relative}
+.slip .toca{font-weight:700;background:var(--tinta);color:#fff;border-radius:999px;padding:8px 16px;font-size:14px;position:relative}
 .slip.abierto{background:var(--papel);transform:rotate(-2deg);animation:abre .5s cubic-bezier(.2,1.4,.4,1);cursor:default}
-.slip.abierto::before{opacity:.5}
-.slip .pre{font-weight:600;font-size:15px;color:var(--gris)}
+.slip .pre{font-weight:600;font-size:15px;color:var(--gris);position:relative;background:var(--papel);padding:0 8px}
 .slip .quien{font-family:var(--f-mano);font-size:clamp(54px,17vw,76px);line-height:.95;overflow-wrap:anywhere;position:relative;background:var(--papel);padding:0 8px}
 .datos{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.dato{background:var(--azul-hondo);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.dato{background:rgba(255,255,255,.14);border-radius:999px;padding:8px 15px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
 .revela .cita{color:var(--sol);font-size:28px}
-.revela .link{color:#D6DEFF}
+.revela .link{color:#D5DDFF}
 #confeti{position:fixed;inset:0;pointer-events:none;z-index:5;width:100%;height:100%}
 @keyframes tiembla{0%,86%,100%{transform:rotate(-4deg)}90%{transform:rotate(-7deg)}94%{transform:rotate(-1deg)}}
 @keyframes abre{from{transform:rotate(-4deg) scaleY(.25)}to{transform:rotate(-2deg) scaleY(1)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:360px){.duo{grid-template-columns:1fr}}
+@media (max-width:350px){.duo{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -134,7 +156,7 @@ input::placeholder{color:#9AA2C4}
 <div id="modal"></div>
 <canvas id="confeti" hidden></canvas>
 <script>
-/* URL pública del artefacto: la usan los links personales. */
+/* URL pública donde se abre el papelito de cada participante. */
 const SHARE_URL = "https://maxikuchen-spica.github.io/papelito/";
 
 /* ===== lógica pura ===== */
@@ -183,6 +205,27 @@ function sortear(people){
   }
   return paso(0) ? res : null;
 }
+/* Celular argentino a formato wa.me (549 + característica + número). "" si está vacío, null si no se entiende. */
+function telWa(raw){
+  const s = String(raw||"").trim();
+  let d = s.replace(/\D/g,"");
+  if(!d) return "";
+  const intl = s.startsWith("+") || d.startsWith("00");
+  d = d.replace(/^00/,"");
+  const local = x => {
+    x = x.replace(/^0/,"");
+    if(x.length===10) return "549"+x;
+    if(x.length===12){
+      const pos = x.startsWith("11") ? [2,3,4] : [3,4,2];
+      for(const i of pos) if(x.substr(i,2)==="15") return "549"+x.slice(0,i)+x.slice(i+2);
+    }
+    return null;
+  };
+  if(d.startsWith("549") && d.length===13) return d;
+  if(d.startsWith("54") && d.length>=12){ const r = local(d.slice(2)); if(r) return r; }
+  if(intl) return d.length>=8 && d.length<=15 ? d : null;
+  return local(d);
+}
 /* ===== fin lógica pura ===== */
 
 const $app = document.getElementById("app"), $modal = document.getElementById("modal");
@@ -190,6 +233,15 @@ const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">
 const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4);
 const fFecha = d => { if(!d) return ""; const x = new Date(d+"T12:00:00"); return isNaN(x) ? "" : x.toLocaleDateString("es-AR",{day:"numeric",month:"long",year:"numeric"}); };
 const fMonto = m => { const n = Number(m); return n>0 ? "$ " + n.toLocaleString("es-AR") : ""; };
+const TONOS = [["#E3E9FF","#2B43C9"],["#FFE9C7","#8A5200"],["#DCF5E7","#0C6B45"],["#FDE3E4","#A1272C"],["#E9E2FF","#5136B8"],["#D9F1F7","#0B6278"]];
+function avatar(name){
+  const n = String(name||"?").trim(), ws = n.split(/\s+/);
+  const ini = ((ws[0]?.[0]||"?") + (ws[1]?.[0]||"")).toUpperCase();
+  let h = 0; for(const c of n) h = (h*31 + c.codePointAt(0)) % 997;
+  const [bg,fg] = TONOS[h % TONOS.length];
+  return `<span class="av" style="background:${bg};color:${fg}" aria-hidden="true">${esc(ini)}</span>`;
+}
+const ICO_WA = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>`;
 
 const S = { view:"cargando", gid:null, groups:[], modal:null, local:false, revelado:false };
 let store = null;
@@ -241,7 +293,7 @@ let tT;
 function toast(msg){
   document.querySelectorAll(".toast").forEach(t=>t.remove());
   const t = document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent = msg;
-  document.body.appendChild(t); clearTimeout(tT); tT = setTimeout(()=>t.remove(), 3200);
+  document.body.appendChild(t); clearTimeout(tT); tT = setTimeout(()=>t.remove(), 3400);
 }
 const grupo = () => S.groups.find(g=>g.id===S.gid);
 function linkDe(g, p){
@@ -250,13 +302,15 @@ function linkDe(g, p){
   const base = SHARE_URL.startsWith("http") ? SHARE_URL : location.href.split("#")[0];
   return base + "#" + h;
 }
-function textoWa(g, p){
-  return "Hola " + p.name + "! Ya se sorteó el amigo invisible de *" + g.name + "* 🎁\nAbrí este link para ver quién te tocó. Es solo para vos, no se lo muestres a nadie:\n" + linkDe(g, p);
+function hrefWa(g, p){
+  const txt = "Hola " + p.name + "! Ya se sorteó el amigo invisible de *" + g.name + "* 🎁\nAbrí este link para ver quién te tocó. Es solo para vos, no se lo muestres a nadie:\n" + linkDe(g, p);
+  return "https://wa.me/" + (telWa(p.tel)||"") + "?text=" + encodeURIComponent(txt);
 }
+const TEL_ERR = "No entiendo ese celular. Escribilo con característica, sin 0 ni 15. Ej: 3492 123456";
 
 /* ===== vistas ===== */
 function cabecera(volver){
-  return `<div class="top"><div class="marca"><i></i>Papelito</div>${volver ? `<button class="volver" data-a="home">← Mis grupos</button>` : ""}</div>`;
+  return `<div class="top"><div class="marca"><i></i>Papelito</div>${volver ? `<button class="volver" data-a="home">‹ Mis grupos</button>` : ""}</div>`;
 }
 function vHome(){
   const gs = S.groups.slice().sort((a,b)=>(b.created||0)-(a.created||0));
@@ -264,12 +318,13 @@ function vHome(){
   if(S.local) h += `<div class="info">Tus grupos se guardan solo en este dispositivo.</div>`;
   if(!gs.length){
     h += `<div class="card"><h2>Todavía no tenés grupos</h2>
-      <p class="nota">1. Creá el grupo con fecha y presupuesto.<br>2. Cargá a los participantes y quiénes no se pueden tocar.<br>3. Sorteá y enviá a cada uno su link secreto.</p>
+      <ol class="pasos"><li>Creá el grupo con fecha y presupuesto.</li><li>Cargá a los participantes con su celular.</li><li>Sorteá y enviá a cada uno su link secreto.</li></ol>
       <button class="btn sol grande" data-a="nuevo">Crear mi primer grupo</button></div>`;
   }else{
     h += gs.map(g=>`<button class="grupo" data-a="abrir" data-id="${esc(g.id)}">
       <span class="fila"><h3>${esc(g.name)}</h3><span class="pill ${g.draw?"listo":"pend"}">${g.draw?"Sorteado":"Pendiente"}</span></span>
-      <span class="meta"><span>${g.people.length} participante${g.people.length===1?"":"s"}</span>${g.date?`<span>${esc(fFecha(g.date))}</span>`:""}${fMonto(g.budget)?`<span>${esc(fMonto(g.budget))}</span>`:""}</span>
+      <span class="meta">${g.date?`<span>${esc(fFecha(g.date))}</span>`:""}${fMonto(g.budget)?`<span>Hasta ${esc(fMonto(g.budget))}</span>`:""}</span>
+      <span class="pila">${g.people.slice(0,5).map(p=>avatar(p.name)).join("")}<span class="mas">${g.people.length ? g.people.length+" participante"+(g.people.length===1?"":"s") : "Sin participantes"}</span></span>
     </button>`).join("");
     h += `<button class="btn sol grande" data-a="nuevo">Nuevo grupo</button>`;
   }
@@ -281,28 +336,29 @@ function vGrupo(){
   h += `<div class="card"><div class="fila"><h2>${esc(g.name)}</h2><span class="pill ${g.draw?"listo":"pend"}">${g.draw?"Sorteado":"Pendiente"}</span></div>
     <div class="meta">${g.date?`<span>${esc(fFecha(g.date))}</span>`:"<span>Sin fecha</span>"}<span>${fMonto(g.budget)?"Hasta "+esc(fMonto(g.budget)):"Sin presupuesto"}</span></div>
     ${g.msg?`<p class="cita">“${esc(g.msg)}”</p>`:""}
-    <div class="acc"><button class="link" data-a="editar">Editar datos</button><button class="link" data-a="borrar">Eliminar grupo</button></div></div>`;
+    <div class="acc" style="gap:18px"><button class="link azul" data-a="editar">Editar datos</button><button class="link" data-a="borrar">Eliminar grupo</button></div></div>`;
 
   if(!g.draw){
     const n = g.people.length, posible = n>=3 && !!sortear(g.people);
-    h += `<div class="card"><h2>Participantes (${n})</h2>
-      <form class="sumar" data-f="sumar"><input type="text" id="nuevo-nombre" maxlength="30" placeholder="Nombre" autocomplete="off" aria-label="Nombre del participante"><button class="btn sol" type="submit">Agregar</button></form>
+    h += `<div class="card"><h2>Participantes${n?" · "+n:""}</h2>
+      <form class="sumar" data-f="sumar"><div class="duo"><input type="text" id="nuevo-nombre" maxlength="30" placeholder="Nombre" autocomplete="off" aria-label="Nombre del participante"><input type="tel" id="nuevo-tel" maxlength="22" placeholder="Celular (opcional)" autocomplete="off" inputmode="tel" aria-label="Celular del participante"></div><button class="btn" type="submit">Agregar participante</button></form>
       ${n?`<ul class="gente">${g.people.map(p=>{
         const ex = (p.ex||[]).map(id=>g.people.find(x=>x.id===id)).filter(Boolean);
-        return `<li><div class="fila"><span class="nombre">${esc(p.name)}</span><button class="x" data-a="quitar" data-id="${esc(p.id)}" aria-label="Quitar a ${esc(p.name)}">×</button></div>
-          <div class="acc"><button class="btn chico" data-a="excl" data-id="${esc(p.id)}">Exclusiones${ex.length?" ("+ex.length+")":""}</button>${ex.length?`<span class="nota">No se regala con ${esc(ex.map(x=>x.name).join(", "))}</span>`:""}</div></li>`;
-      }).join("")}</ul>`:`<p class="nota">Agregá al menos 3 personas, vos incluido.</p>`}</div>`;
+        return `<li><div class="pers">${avatar(p.name)}<div class="txt"><span class="nombre">${esc(p.name)}</span><span class="sub">${p.tel?esc(p.tel):"Sin celular"}${ex.length?" · no se regala con "+esc(ex.map(x=>x.name).join(", ")):""}</span></div></div>
+          <div class="acc"><button class="btn chico" data-a="persona" data-id="${esc(p.id)}">Editar</button><button class="btn chico" data-a="excl" data-id="${esc(p.id)}">Exclusiones${ex.length?" ("+ex.length+")":""}</button></div></li>`;
+      }).join("")}</ul>`:`<p class="nota">Agregá al menos 3 personas, vos incluido. Con el celular cargado, WhatsApp abre directo el chat de cada uno.</p>`}</div>`;
     if(n>=3 && !posible) h += `<div class="aviso">Con estas exclusiones no hay sorteo posible. Sacá alguna para poder sortear.</div>`;
     h += `<button class="btn sol grande" data-a="sortear" ${posible?"":"disabled"}>Sortear</button>`;
-    if(n<3) h += `<p class="nota" style="color:#D6DEFF;text-align:center">Faltan ${3-n} participante${3-n===1?"":"s"} para poder sortear.</p>`;
+    if(n<3) h += `<p class="nota" style="color:#D5DDFF;text-align:center">Faltan ${3-n} participante${3-n===1?"":"s"} para poder sortear.</p>`;
   }else{
-    const env = g.sent||{}, cuantos = g.people.filter(p=>env[p.id]).length;
-    h += `<div class="card"><h2>Enviá los resultados</h2>
-      <p class="nota">Cada link muestra un solo resultado. Vos tampoco ves quién le tocó a quién: mandate el tuyo y abrilo como todos. Enviados: ${cuantos} de ${g.people.length}.</p>
-      <ul class="gente">${g.people.map(p=>`<li><div class="fila"><span class="nombre">${esc(p.name)}</span>${env[p.id]?`<span class="enviado">✓ Enviado</span>`:""}</div>
-        <div class="acc"><a class="btn chico wa" target="_blank" rel="noopener" data-a="wa" data-id="${esc(p.id)}" href="https://wa.me/?text=${encodeURIComponent(textoWa(g,p))}">WhatsApp</a>
-        <button class="btn chico" data-a="copiar" data-id="${esc(p.id)}">Copiar link</button></div></li>`).join("")}</ul></div>
-      <button class="btn" data-a="resortear">Volver a sortear</button>`;
+    const env = g.sent||{}, cuantos = g.people.filter(p=>env[p.id]).length, tot = g.people.length;
+    h += `<div class="card"><div class="fila"><h2>Enviá los resultados</h2><span class="sub" style="font-weight:700">${cuantos} de ${tot}</span></div>
+      <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${tot}" aria-valuenow="${cuantos}" aria-label="Resultados enviados"><span style="width:${tot?Math.round(cuantos/tot*100):0}%"></span></div>
+      <p class="nota">Cada link muestra un solo resultado. Mandate el tuyo y abrilo como todos.</p>
+      <ul class="gente">${g.people.map(p=>`<li><div class="pers">${avatar(p.name)}<div class="txt"><span class="nombre">${esc(p.name)}</span><span class="sub">${p.tel?esc(p.tel):"Sin celular: vas a elegir el chat en WhatsApp"}</span></div>${env[p.id]?`<span class="enviado">✓ Enviado</span>`:""}</div>
+        <div class="acc"><a class="btn chico wa" target="_blank" rel="noopener" data-a="wa" data-id="${esc(p.id)}" href="${esc(hrefWa(g,p))}">${ICO_WA}${env[p.id]?"Reenviar":"Enviar"}</a>
+        <button class="btn chico" data-a="copiar" data-id="${esc(p.id)}">Copiar link</button><button class="btn chico" data-a="persona" data-id="${esc(p.id)}">${p.tel?"Editar":"Agregar celular"}</button></div></li>`).join("")}</ul></div>
+      <button class="btn claro" data-a="resortear">Volver a sortear</button>`;
   }
   return h;
 }
@@ -310,13 +366,13 @@ function vRevela(){
   const d = S.slip;
   if(!d) return cabecera(false) + `<div class="card"><h2>Este link no sirve</h2><p class="nota">Está incompleto o mal copiado. Pedile a quien organizó el sorteo que te lo mande de nuevo.</p></div>`;
   return `<div class="top" style="justify-content:center"><div class="marca"><i></i>Papelito</div></div>
-    <div><p class="hola">Hola, ${esc(d.de)}</p><p class="sub">Amigo invisible de ${esc(d.grupo)}</p></div>
+    <div><p class="hola">Hola, ${esc(d.de)}</p><p class="sub2">Amigo invisible de ${esc(d.grupo)}</p></div>
     ${S.revelado
       ? `<div class="slip abierto" role="status"><span class="pre">Te tocó regalarle a</span><span class="quien">${esc(d.para)}</span></div>`
       : `<button class="slip" data-a="revelar" aria-label="Abrir el papelito para ver quién te tocó"><span class="q">?</span><span class="toca">Tocá para abrir tu papelito</span></button>`}
     <div class="datos">${fFecha(d.fecha)?`<span class="dato">${esc(fFecha(d.fecha))}</span>`:""}${fMonto(d.monto)?`<span class="dato">Hasta ${esc(fMonto(d.monto))}</span>`:""}</div>
     ${d.msg?`<p class="cita">“${esc(d.msg)}”</p>`:""}
-    ${S.revelado?`<p class="sub">Es secreto. No se lo cuentes a nadie.</p><div><button class="link" data-a="doblar">Volver a doblar el papelito</button></div>`:`<p class="sub">Fijate que nadie esté mirando tu pantalla.</p>`}`;
+    ${S.revelado?`<p class="sub2">Es secreto. No se lo cuentes a nadie.</p><div><button class="link" data-a="doblar">Volver a doblar el papelito</button></div>`:`<p class="sub2">Fijate que nadie esté mirando tu pantalla.</p>`}`;
 }
 
 /* ===== modales ===== */
@@ -327,24 +383,33 @@ function vModal(){
   if(m.t==="form"){
     const e = m.edit ? g : {};
     c = `<h2>${m.edit?"Editar grupo":"Nuevo grupo"}</h2>
-      <form data-f="grupo" style="display:flex;flex-direction:column;gap:14px">
+      <form data-f="grupo">
       <label for="g-nombre">Nombre del grupo<input type="text" id="g-nombre" maxlength="40" required placeholder="Familia, Navidad 2026" value="${esc(e.name||"")}" autocomplete="off"></label>
-      <div class="duo"><label for="g-fecha">Fecha del intercambio<input type="date" id="g-fecha" value="${esc(e.date||"")}"></label>
+      <div class="duo"><label for="g-fecha">Fecha<input type="date" id="g-fecha" value="${esc(e.date||"")}"></label>
       <label for="g-monto">Presupuesto ($)<input type="number" id="g-monto" min="0" step="500" inputmode="numeric" placeholder="20000" value="${esc(e.budget||"")}"></label></div>
       <label for="g-msg">Regla o mensaje (opcional)<input type="text" id="g-msg" maxlength="90" placeholder="El regalo tiene que ser original" value="${esc(e.msg||"")}" autocomplete="off"></label>
       <button class="btn sol grande" type="submit">${m.edit?"Guardar":"Crear grupo"}</button>
+      <button class="link" type="button" data-a="cerrar">Cancelar</button></form>`;
+  }else if(m.t==="persona"){
+    const p = g.people.find(x=>x.id===m.id);
+    c = `<h2>Editar participante</h2>
+      <form data-f="persona">
+      <label for="p-nombre">Nombre<input type="text" id="p-nombre" maxlength="30" required value="${esc(p.name)}" autocomplete="off"></label>
+      <label for="p-tel">Celular con característica, sin 0 ni 15<input type="tel" id="p-tel" maxlength="22" inputmode="tel" placeholder="3492 123456" value="${esc(p.tel||"")}" autocomplete="off"></label>
+      <button class="btn sol grande" type="submit">Guardar</button>
+      ${g.draw?"":`<button class="link" type="button" data-a="quitar" data-id="${esc(p.id)}" style="color:var(--rojo)">Quitar del grupo</button>`}
       <button class="link" type="button" data-a="cerrar">Cancelar</button></form>`;
   }else if(m.t==="excl"){
     const p = g.people.find(x=>x.id===m.id);
     c = `<h2>Exclusiones de ${esc(p.name)}</h2><p class="nota">Marcá con quién no se puede tocar. Vale para los dos lados: ni ${esc(p.name)} le regala, ni recibe de esa persona.</p>
       <div>${g.people.filter(x=>x.id!==p.id).map(x=>{ const on=(p.ex||[]).includes(x.id);
-        return `<div class="excl"><span class="nombre">${esc(x.name)}</span><button class="sw ${on?"on":""}" data-a="tog" data-id="${esc(x.id)}" aria-pressed="${on}">${on?"No se regalan":"Se pueden tocar"}</button></div>`; }).join("")}</div>
-      <button class="btn sol" data-a="cerrar">Listo</button>`;
+        return `<div class="excl"><div class="pers">${avatar(x.name)}<span class="nombre">${esc(x.name)}</span></div><button class="sw ${on?"on":""}" data-a="tog" data-id="${esc(x.id)}" aria-pressed="${on}">${on?"No se regalan":"Se pueden tocar"}</button></div>`; }).join("")}</div>
+      <button class="btn sol grande" data-a="cerrar">Listo</button>`;
   }else if(m.t==="conf"){
     c = `<h2>${esc(m.titulo)}</h2><p class="nota">${esc(m.texto)}</p>
-      <button class="btn rojo" data-a="si">${esc(m.si)}</button><button class="link" data-a="cerrar">Cancelar</button>`;
+      <button class="btn rojo grande" data-a="si">${esc(m.si)}</button><button class="link" data-a="cerrar">Cancelar</button>`;
   }else if(m.t==="link"){
-    c = `<h2>Link de ${esc(m.nombre)}</h2><p class="nota">No se pudo copiar solo. Mantené apretado el texto y copialo:</p><p class="info copia">${esc(m.url)}</p><button class="btn sol" data-a="cerrar">Listo</button>`;
+    c = `<h2>Link de ${esc(m.nombre)}</h2><p class="nota">No se pudo copiar solo. Mantené apretado el texto y copialo:</p><p class="copia">${esc(m.url)}</p><button class="btn sol grande" data-a="cerrar">Listo</button>`;
   }
   return `<div class="velo" data-a="velo"><div class="sheet" role="dialog" aria-modal="true">${c}</div></div>`;
 }
@@ -363,7 +428,8 @@ const acciones = {
   editar(){ S.modal={t:"form",edit:true}; },
   cerrar(){ S.modal=null; },
   velo(el,ev){ if(ev.target===el) S.modal=null; else return false; },
-  quitar(el){ const g=grupo(), id=el.dataset.id; g.people=g.people.filter(p=>p.id!==id); g.people.forEach(p=>p.ex=(p.ex||[]).filter(x=>x!==id)); guardar(g); },
+  persona(el){ S.modal={t:"persona",id:el.dataset.id}; },
+  quitar(el){ const g=grupo(), id=el.dataset.id; g.people=g.people.filter(p=>p.id!==id); g.people.forEach(p=>p.ex=(p.ex||[]).filter(x=>x!==id)); S.modal=null; guardar(g); },
   excl(el){ S.modal={t:"excl",id:el.dataset.id}; },
   tog(el){ const g=grupo(), a=g.people.find(p=>p.id===S.modal.id), b=g.people.find(p=>p.id===el.dataset.id);
     const on=(a.ex||[]).includes(b.id);
@@ -377,7 +443,7 @@ const acciones = {
   si(){ const g=grupo(), q=S.modal.que; S.modal=null;
     if(q==="resortear"){ g.draw=null; g.sent={}; guardar(g); }
     if(q==="borrar"){ S.groups=S.groups.filter(x=>x.id!==g.id); store.remove(g.id).catch(()=>toast("No se pudo eliminar.")); S.view="home"; S.gid=null; } },
-  wa(el){ const g=grupo(); g.sent=g.sent||{}; if(!g.sent[el.dataset.id]){ g.sent[el.dataset.id]=true; guardar(g); } setTimeout(render,400); return false; },
+  wa(el){ const g=grupo(); g.sent=g.sent||{}; if(!g.sent[el.dataset.id]){ g.sent[el.dataset.id]=true; guardar(g); } setTimeout(render,500); return false; },
   copiar(el){ const g=grupo(), p=g.people.find(x=>x.id===el.dataset.id), url=linkDe(g,p);
     const falla=()=>{ S.modal={t:"link",nombre:p.name,url}; render(); };
     try{ navigator.clipboard.writeText(url).then(()=>toast("Link de "+p.name+" copiado."), falla); }catch(e){ falla(); }
@@ -390,19 +456,28 @@ document.addEventListener("click", ev=>{
   const fn = acciones[el.dataset.a]; if(!fn) return;
   if(fn(el, ev)!==false) render();
 });
+const repetido = (g, name, salvo) => g.people.some(p=>p.id!==salvo && p.name.toLowerCase()===name.toLowerCase());
 document.addEventListener("submit", ev=>{
   ev.preventDefault();
-  const f = ev.target.dataset.f;
+  const f = ev.target.dataset.f, val = id => document.getElementById(id).value.trim();
   if(f==="sumar"){
-    const g=grupo(), inp=document.getElementById("nuevo-nombre"), name=inp.value.trim();
-    if(!name) return;
-    if(g.people.some(p=>p.name.toLowerCase()===name.toLowerCase())){ toast("Ya hay alguien con ese nombre. Agregale el apellido o un apodo."); return; }
-    g.people.push({id:uid(), name, ex:[]}); guardar(g); render();
+    const g=grupo(), name=val("nuevo-nombre"), tel=val("nuevo-tel");
+    if(!name){ document.getElementById("nuevo-nombre").focus(); return; }
+    if(repetido(g,name)){ toast("Ya hay alguien con ese nombre. Agregale el apellido o un apodo."); return; }
+    if(telWa(tel)===null){ toast(TEL_ERR); return; }
+    g.people.push({id:uid(), name, tel, ex:[]}); guardar(g); render();
     document.getElementById("nuevo-nombre")?.focus();
   }
+  if(f==="persona"){
+    const g=grupo(), p=g.people.find(x=>x.id===S.modal.id), name=val("p-nombre"), tel=val("p-tel");
+    if(!name) return;
+    if(repetido(g,name,p.id)){ toast("Ya hay alguien con ese nombre."); return; }
+    if(telWa(tel)===null){ toast(TEL_ERR); return; }
+    p.name=name; p.tel=tel; S.modal=null; guardar(g); render();
+  }
   if(f==="grupo"){
-    const name=document.getElementById("g-nombre").value.trim(); if(!name) return;
-    const datos={name, date:document.getElementById("g-fecha").value, budget:Number(document.getElementById("g-monto").value)||0, msg:document.getElementById("g-msg").value.trim()};
+    const name=val("g-nombre"); if(!name) return;
+    const datos={name, date:val("g-fecha"), budget:Number(val("g-monto"))||0, msg:val("g-msg")};
     let g;
     if(S.modal.edit){ g=grupo(); Object.assign(g, datos); }
     else{ g={id:uid(), ...datos, people:[], draw:null, sent:{}, created:Date.now()}; S.groups.push(g); S.gid=g.id; S.view="grupo"; }
@@ -415,7 +490,7 @@ function confeti(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const c=document.getElementById("confeti"), x=c.getContext("2d");
   c.hidden=false; c.width=innerWidth; c.height=innerHeight;
-  const col=["#FFC83A","#FF574A","#FFFFFF","#FFF7E2"];
+  const col=["#FFCB45","#FF6B5E","#FFFFFF","#FFF8E4","#8FA6FF"];
   const ps=Array.from({length:90},()=>({x:c.width/2,y:c.height*.42,vx:(Math.random()-.5)*13,vy:-Math.random()*13-3,w:6+Math.random()*7,h:4+Math.random()*4,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:col[Math.floor(Math.random()*col.length)]}));
   const t0=performance.now();
   (function f(t){
