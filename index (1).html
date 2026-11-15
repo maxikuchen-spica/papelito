@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papelito amigo invisible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Caveat:wght@700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: una columna de celular sobre azul cobalto pleno; tarjetas blancas de borde grueso
+   y sombra dura; el papelito amarillo del sorteo es el único elemento torcido y manuscrito. */
+:root{
+  color-scheme: light;
+  --azul:#2143D9;
+  --azul-hondo:#1832AE;
+  --tinta:#0F1845;
+  --papel:#FFF7E2;
+  --sol:#FFC83A;
+  --cinta:#FF574A;
+  --blanco:#FFFFFF;
+  --gris:#5B648F;
+  --linea:#DDE2F6;
+  --ok:#128A5C;
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mano:"Caveat","Comic Sans MS",cursive;
+  --r:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--azul);color:var(--tinta);font-family:var(--f-body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.05}
+.app{max-width:480px;margin:0 auto;padding:20px 16px 48px;display:flex;flex-direction:column;gap:18px}
+
+/* cabecera */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--blanco)}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.02em}
+.marca i{display:block;width:26px;height:18px;background:var(--sol);border:2px solid var(--tinta);border-radius:3px;transform:rotate(-12deg);position:relative}
+.marca i::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid var(--tinta);opacity:.35}
+.volver{background:transparent;border:2px solid rgba(255,255,255,.55);color:var(--blanco);border-radius:999px;padding:8px 14px;font-weight:600;cursor:pointer}
+.titular{color:var(--blanco);display:flex;flex-direction:column;gap:8px}
+.titular h1{font-size:clamp(34px,10vw,44px);font-weight:800;letter-spacing:-.03em}
+.titular h1 em{font-style:normal;color:var(--sol)}
+.titular p{color:#D6DEFF;max-width:34ch}
+
+/* tarjetas */
+.card{background:var(--blanco);border:2px solid var(--tinta);border-radius:var(--r);box-shadow:0 5px 0 var(--tinta);padding:18px;display:flex;flex-direction:column;gap:14px}
+.card h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.fila{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--gris);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.pill.pend{background:var(--papel);border:1.5px solid var(--tinta)}
+.pill.listo{background:var(--ok);color:#fff}
+.nota{color:var(--gris);font-size:14px}
+.cita{font-family:var(--f-mano);font-size:24px;line-height:1.1;color:var(--tinta)}
+.aviso{background:#FFE7E4;border:1.5px solid var(--cinta);border-radius:14px;padding:10px 12px;font-size:14px;font-weight:500}
+.info{background:var(--papel);border:1.5px dashed var(--tinta);border-radius:14px;padding:10px 12px;font-size:14px}
+
+/* lista de grupos */
+.grupo{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;width:100%;background:var(--blanco);border:2px solid var(--tinta);border-radius:var(--r);box-shadow:0 5px 0 var(--tinta);padding:16px 18px}
+.grupo h3{font-size:20px;font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.grupo:active{transform:translateY(3px);box-shadow:0 2px 0 var(--tinta)}
+
+/* botones */
+.btn{appearance:none;border:2px solid var(--tinta);border-radius:16px;background:var(--blanco);padding:12px 16px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 var(--tinta);text-decoration:none;color:var(--tinta);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--tinta)}
+.btn.sol{background:var(--sol)}
+.btn.wa{background:#25D366}
+.btn.rojo{background:var(--cinta);color:#fff}
+.btn.grande{font-family:var(--f-display);font-size:20px;font-weight:800;padding:16px;width:100%}
+.btn.chico{padding:8px 12px;font-size:14px;border-radius:12px;box-shadow:0 3px 0 var(--tinta)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:0 4px 0 var(--tinta);transform:none}
+.link{background:none;border:0;padding:4px 0;color:var(--gris);font-weight:600;text-decoration:underline;cursor:pointer;font-size:14px}
+:focus-visible{outline:3px solid var(--sol);outline-offset:2px}
+.card :focus-visible,.sheet :focus-visible{outline-color:var(--azul)}
+
+/* formularios */
+label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px}
+input[type=text],input[type=date],input[type=number]{width:100%;border:2px solid var(--tinta);border-radius:14px;padding:12px 14px;background:var(--blanco);font-size:16px;min-height:48px}
+input::placeholder{color:#9AA2C4}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sumar{display:flex;gap:8px}
+.sumar input{flex:1;min-width:0}
+
+/* participantes */
+.gente{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.gente li{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-top:1.5px solid var(--linea)}
+.gente li:first-child{border-top:0;padding-top:0}
+.nombre{font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.x{background:none;border:0;color:var(--gris);font-size:22px;line-height:1;padding:4px 8px;cursor:pointer}
+.enviado{color:var(--ok);font-size:13px;font-weight:700}
+
+/* modal */
+.velo{position:fixed;inset:0;background:rgba(15,24,69,.6);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{background:var(--blanco);border:2px solid var(--tinta);border-bottom:0;border-radius:26px 26px 0 0;width:100%;max-width:480px;max-height:88%;overflow:auto;padding:22px 18px 28px;display:flex;flex-direction:column;gap:14px;animation:sube .22s ease-out}
+.sheet h2{font-size:22px;font-weight:800}
+.excl{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1.5px solid var(--linea)}
+.sw{border:2px solid var(--tinta);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;background:var(--blanco);cursor:pointer;white-space:nowrap}
+.sw.on{background:var(--cinta);color:#fff}
+.copia{font-size:13px;word-break:break-all}
+@keyframes sube{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:20;max-width:calc(100% - 32px);text-align:center}
+
+/* revelación */
+.revela{align-items:stretch;text-align:center;color:var(--blanco);gap:22px}
+.revela .hola{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,10vw,46px);letter-spacing:-.03em;line-height:1}
+.revela .sub{color:#D6DEFF}
+.slip{appearance:none;border:2px solid var(--tinta);cursor:pointer;margin:10px auto 6px;width:min(100%,340px);min-height:210px;background:var(--sol);color:var(--tinta);border-radius:8px;box-shadow:0 8px 0 var(--tinta);transform:rotate(-4deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:22px;position:relative;animation:tiembla 2.6s ease-in-out infinite}
+.slip::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed rgba(15,24,69,.35)}
+.slip .q{font-family:var(--f-display);font-weight:800;font-size:72px;line-height:1}
+.slip .toca{font-weight:700;background:var(--tinta);color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;position:relative}
+.slip.abierto{background:var(--papel);transform:rotate(-2deg);animation:abre .5s cubic-bezier(.2,1.4,.4,1);cursor:default}
+.slip.abierto::before{opacity:.5}
+.slip .pre{font-weight:600;font-size:15px;color:var(--gris)}
+.slip .quien{font-family:var(--f-mano);font-size:clamp(54px,17vw,76px);line-height:.95;overflow-wrap:anywhere;position:relative;background:var(--papel);padding:0 8px}
+.datos{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.dato{background:var(--azul-hondo);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.revela .cita{color:var(--sol);font-size:28px}
+.revela .link{color:#D6DEFF}
+#confeti{position:fixed;inset:0;pointer-events:none;z-index:5;width:100%;height:100%}
+@keyframes tiembla{0%,86%,100%{transform:rotate(-4deg)}90%{transform:rotate(-7deg)}94%{transform:rotate(-1deg)}}
+@keyframes abre{from{transform:rotate(-4deg) scaleY(.25)}to{transform:rotate(-2deg) scaleY(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:360px){.duo{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="app" id="app"><div class="top"><div class="marca"><i></i>Papelito</div></div><div class="titular"><p>Cargando…</p></div></main>
+<div id="modal"></div>
+<canvas id="confeti" hidden></canvas>
+<script>
+/* URL pública del artefacto: la usan los links personales. */
+const SHARE_URL = "https://maxikuchen-spica.github.io/papelito/";
+
+/* ===== lógica pura ===== */
+const B62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const KEY = [83,17,201,44,118,9,157,66,230,31,95,140,7,188,52,223];
+function encodeSlip(parts){
+  const bytes = new TextEncoder().encode(parts.join("\u0001"));
+  let n = 1n;
+  bytes.forEach((b,i)=>{ n = (n<<8n) | BigInt(b ^ KEY[i%KEY.length]); });
+  let out = "";
+  while(n>0n){ out = B62[Number(n%62n)] + out; n/=62n; }
+  return "am" + out;
+}
+function decodeSlip(hash){
+  try{
+    if(!/^am[0-9a-zA-Z]+$/.test(hash)) return null;
+    let n = 0n;
+    for(const c of hash.slice(2)){ const v = B62.indexOf(c); if(v<0) return null; n = n*62n + BigInt(v); }
+    const hex = n.toString(16).slice(1);
+    if(!hex || hex.length%2) return null;
+    const bytes = new Uint8Array(hex.length/2);
+    for(let i=0;i<bytes.length;i++) bytes[i] = parseInt(hex.substr(i*2,2),16) ^ KEY[i%KEY.length];
+    const p = new TextDecoder("utf-8",{fatal:true}).decode(bytes).split("\u0001");
+    if(p.length!==7 || p[0]!=="1") return null;
+    return {grupo:p[1],fecha:p[2],monto:p[3],msg:p[4],de:p[5],para:p[6]};
+  }catch(e){ return null; }
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+/* Devuelve {idQueRegala: idQueRecibe} o null si las exclusiones lo hacen imposible. */
+function sortear(people){
+  const ids = people.map(p=>p.id);
+  const ok = {};
+  people.forEach(p=>{ ok[p.id] = ids.filter(r=>r!==p.id && !(p.ex||[]).includes(r)); });
+  const orden = shuffle(ids).sort((a,b)=>ok[a].length-ok[b].length);
+  const usado = new Set(), res = {};
+  function paso(i){
+    if(i===orden.length) return true;
+    const g = orden[i];
+    for(const r of shuffle(ok[g])){
+      if(usado.has(r)) continue;
+      usado.add(r); res[g]=r;
+      if(paso(i+1)) return true;
+      usado.delete(r); delete res[g];
+    }
+    return false;
+  }
+  return paso(0) ? res : null;
+}
+/* ===== fin lógica pura ===== */
+
+const $app = document.getElementById("app"), $modal = document.getElementById("modal");
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4);
+const fFecha = d => { if(!d) return ""; const x = new Date(d+"T12:00:00"); return isNaN(x) ? "" : x.toLocaleDateString("es-AR",{day:"numeric",month:"long",year:"numeric"}); };
+const fMonto = m => { const n = Number(m); return n>0 ? "$ " + n.toLocaleString("es-AR") : ""; };
+
+const S = { view:"cargando", gid:null, groups:[], modal:null, local:false, revelado:false };
+let store = null;
+
+/* ===== guardado ===== */
+function localStore(){
+  const K = "papelito-grupos";
+  let mem = [];
+  try{ mem = JSON.parse(localStorage.getItem(K) || "[]"); }catch(e){}
+  const put = () => { try{ localStorage.setItem(K, JSON.stringify(mem)); }catch(e){} };
+  return {
+    load: async()=>mem,
+    save: async g=>{ const i = mem.findIndex(x=>x.id===g.id); if(i<0) mem.push(g); else mem[i]=g; put(); },
+    remove: async id=>{ mem = mem.filter(x=>x.id!==id); put(); }
+  };
+}
+function dbStore(db, me){
+  const col = db.collection("data/users/" + me);
+  const cola = {};
+  const enCola = (id, fn) => (cola[id] = (cola[id] || Promise.resolve()).catch(()=>{}).then(fn));
+  return {
+    load: async()=>{ const s = await col.get(); return s.docs.map(d=>({...d.data(), id:d.id})); },
+    save: g => enCola(g.id, ()=>col.doc(g.id).set(JSON.parse(JSON.stringify(g)))),
+    remove: id => enCola(id, ()=>col.doc(id).delete())
+  };
+}
+const limite = (p, ms) => Promise.race([p, new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")), ms))]);
+async function initStore(){
+  try{
+    if(window.claude && window.claude.use){
+      const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+      const me = user ? await user.id() : null;
+      if(db && me){
+        const s = dbStore(db, me);
+        S.groups = await limite(s.load(), 10000);
+        store = s; return;
+      }
+    }
+  }catch(e){}
+  store = localStore(); S.local = true;
+  S.groups = await store.load();
+}
+async function guardar(g){
+  try{ await store.save(g); }catch(e){ toast("No se pudo guardar. Revisá la conexión y probá de nuevo."); }
+}
+
+/* ===== utilidades de UI ===== */
+let tT;
+function toast(msg){
+  document.querySelectorAll(".toast").forEach(t=>t.remove());
+  const t = document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent = msg;
+  document.body.appendChild(t); clearTimeout(tT); tT = setTimeout(()=>t.remove(), 3200);
+}
+const grupo = () => S.groups.find(g=>g.id===S.gid);
+function linkDe(g, p){
+  const para = g.people.find(x=>x.id===g.draw[p.id]);
+  const h = encodeSlip(["1", g.name, g.date||"", String(g.budget||""), (g.msg||"").slice(0,90), p.name, para.name]);
+  const base = SHARE_URL.startsWith("http") ? SHARE_URL : location.href.split("#")[0];
+  return base + "#" + h;
+}
+function textoWa(g, p){
+  return "Hola " + p.name + "! Ya se sorteó el amigo invisible de *" + g.name + "* 🎁\nAbrí este link para ver quién te tocó. Es solo para vos, no se lo muestres a nadie:\n" + linkDe(g, p);
+}
+
+/* ===== vistas ===== */
+function cabecera(volver){
+  return `<div class="top"><div class="marca"><i></i>Papelito</div>${volver ? `<button class="volver" data-a="home">← Mis grupos</button>` : ""}</div>`;
+}
+function vHome(){
+  const gs = S.groups.slice().sort((a,b)=>(b.created||0)-(a.created||0));
+  let h = cabecera(false) + `<div class="titular"><h1>Amigo invisible, <em>sin papelitos</em>.</h1><p>Armá el grupo, sorteá y mandale a cada uno su resultado por WhatsApp.</p></div>`;
+  if(S.local) h += `<div class="info">Tus grupos se guardan solo en este dispositivo.</div>`;
+  if(!gs.length){
+    h += `<div class="card"><h2>Todavía no tenés grupos</h2>
+      <p class="nota">1. Creá el grupo con fecha y presupuesto.<br>2. Cargá a los participantes y quiénes no se pueden tocar.<br>3. Sorteá y enviá a cada uno su link secreto.</p>
+      <button class="btn sol grande" data-a="nuevo">Crear mi primer grupo</button></div>`;
+  }else{
+    h += gs.map(g=>`<button class="grupo" data-a="abrir" data-id="${esc(g.id)}">
+      <span class="fila"><h3>${esc(g.name)}</h3><span class="pill ${g.draw?"listo":"pend"}">${g.draw?"Sorteado":"Pendiente"}</span></span>
+      <span class="meta"><span>${g.people.length} participante${g.people.length===1?"":"s"}</span>${g.date?`<span>${esc(fFecha(g.date))}</span>`:""}${fMonto(g.budget)?`<span>${esc(fMonto(g.budget))}</span>`:""}</span>
+    </button>`).join("");
+    h += `<button class="btn sol grande" data-a="nuevo">Nuevo grupo</button>`;
+  }
+  return h;
+}
+function vGrupo(){
+  const g = grupo(); if(!g){ S.view="home"; return vHome(); }
+  let h = cabecera(true);
+  h += `<div class="card"><div class="fila"><h2>${esc(g.name)}</h2><span class="pill ${g.draw?"listo":"pend"}">${g.draw?"Sorteado":"Pendiente"}</span></div>
+    <div class="meta">${g.date?`<span>${esc(fFecha(g.date))}</span>`:"<span>Sin fecha</span>"}<span>${fMonto(g.budget)?"Hasta "+esc(fMonto(g.budget)):"Sin presupuesto"}</span></div>
+    ${g.msg?`<p class="cita">“${esc(g.msg)}”</p>`:""}
+    <div class="acc"><button class="link" data-a="editar">Editar datos</button><button class="link" data-a="borrar">Eliminar grupo</button></div></div>`;
+
+  if(!g.draw){
+    const n = g.people.length, posible = n>=3 && !!sortear(g.people);
+    h += `<div class="card"><h2>Participantes (${n})</h2>
+      <form class="sumar" data-f="sumar"><input type="text" id="nuevo-nombre" maxlength="30" placeholder="Nombre" autocomplete="off" aria-label="Nombre del participante"><button class="btn sol" type="submit">Agregar</button></form>
+      ${n?`<ul class="gente">${g.people.map(p=>{
+        const ex = (p.ex||[]).map(id=>g.people.find(x=>x.id===id)).filter(Boolean);
+        return `<li><div class="fila"><span class="nombre">${esc(p.name)}</span><button class="x" data-a="quitar" data-id="${esc(p.id)}" aria-label="Quitar a ${esc(p.name)}">×</button></div>
+          <div class="acc"><button class="btn chico" data-a="excl" data-id="${esc(p.id)}">Exclusiones${ex.length?" ("+ex.length+")":""}</button>${ex.length?`<span class="nota">No se regala con ${esc(ex.map(x=>x.name).join(", "))}</span>`:""}</div></li>`;
+      }).join("")}</ul>`:`<p class="nota">Agregá al menos 3 personas, vos incluido.</p>`}</div>`;
+    if(n>=3 && !posible) h += `<div class="aviso">Con estas exclusiones no hay sorteo posible. Sacá alguna para poder sortear.</div>`;
+    h += `<button class="btn sol grande" data-a="sortear" ${posible?"":"disabled"}>Sortear</button>`;
+    if(n<3) h += `<p class="nota" style="color:#D6DEFF;text-align:center">Faltan ${3-n} participante${3-n===1?"":"s"} para poder sortear.</p>`;
+  }else{
+    const env = g.sent||{}, cuantos = g.people.filter(p=>env[p.id]).length;
+    h += `<div class="card"><h2>Enviá los resultados</h2>
+      <p class="nota">Cada link muestra un solo resultado. Vos tampoco ves quién le tocó a quién: mandate el tuyo y abrilo como todos. Enviados: ${cuantos} de ${g.people.length}.</p>
+      <ul class="gente">${g.people.map(p=>`<li><div class="fila"><span class="nombre">${esc(p.name)}</span>${env[p.id]?`<span class="enviado">✓ Enviado</span>`:""}</div>
+        <div class="acc"><a class="btn chico wa" target="_blank" rel="noopener" data-a="wa" data-id="${esc(p.id)}" href="https://wa.me/?text=${encodeURIComponent(textoWa(g,p))}">WhatsApp</a>
+        <button class="btn chico" data-a="copiar" data-id="${esc(p.id)}">Copiar link</button></div></li>`).join("")}</ul></div>
+      <button class="btn" data-a="resortear">Volver a sortear</button>`;
+  }
+  return h;
+}
+function vRevela(){
+  const d = S.slip;
+  if(!d) return cabecera(false) + `<div class="card"><h2>Este link no sirve</h2><p class="nota">Está incompleto o mal copiado. Pedile a quien organizó el sorteo que te lo mande de nuevo.</p></div>`;
+  return `<div class="top" style="justify-content:center"><div class="marca"><i></i>Papelito</div></div>
+    <div><p class="hola">Hola, ${esc(d.de)}</p><p class="sub">Amigo invisible de ${esc(d.grupo)}</p></div>
+    ${S.revelado
+      ? `<div class="slip abierto" role="status"><span class="pre">Te tocó regalarle a</span><span class="quien">${esc(d.para)}</span></div>`
+      : `<button class="slip" data-a="revelar" aria-label="Abrir el papelito para ver quién te tocó"><span class="q">?</span><span class="toca">Tocá para abrir tu papelito</span></button>`}
+    <div class="datos">${fFecha(d.fecha)?`<span class="dato">${esc(fFecha(d.fecha))}</span>`:""}${fMonto(d.monto)?`<span class="dato">Hasta ${esc(fMonto(d.monto))}</span>`:""}</div>
+    ${d.msg?`<p class="cita">“${esc(d.msg)}”</p>`:""}
+    ${S.revelado?`<p class="sub">Es secreto. No se lo cuentes a nadie.</p><div><button class="link" data-a="doblar">Volver a doblar el papelito</button></div>`:`<p class="sub">Fijate que nadie esté mirando tu pantalla.</p>`}`;
+}
+
+/* ===== modales ===== */
+function vModal(){
+  const m = S.modal; if(!m) return "";
+  const g = grupo();
+  let c = "";
+  if(m.t==="form"){
+    const e = m.edit ? g : {};
+    c = `<h2>${m.edit?"Editar grupo":"Nuevo grupo"}</h2>
+      <form data-f="grupo" style="display:flex;flex-direction:column;gap:14px">
+      <label for="g-nombre">Nombre del grupo<input type="text" id="g-nombre" maxlength="40" required placeholder="Familia, Navidad 2026" value="${esc(e.name||"")}" autocomplete="off"></label>
+      <div class="duo"><label for="g-fecha">Fecha del intercambio<input type="date" id="g-fecha" value="${esc(e.date||"")}"></label>
+      <label for="g-monto">Presupuesto ($)<input type="number" id="g-monto" min="0" step="500" inputmode="numeric" placeholder="20000" value="${esc(e.budget||"")}"></label></div>
+      <label for="g-msg">Regla o mensaje (opcional)<input type="text" id="g-msg" maxlength="90" placeholder="El regalo tiene que ser original" value="${esc(e.msg||"")}" autocomplete="off"></label>
+      <button class="btn sol grande" type="submit">${m.edit?"Guardar":"Crear grupo"}</button>
+      <button class="link" type="button" data-a="cerrar">Cancelar</button></form>`;
+  }else if(m.t==="excl"){
+    const p = g.people.find(x=>x.id===m.id);
+    c = `<h2>Exclusiones de ${esc(p.name)}</h2><p class="nota">Marcá con quién no se puede tocar. Vale para los dos lados: ni ${esc(p.name)} le regala, ni recibe de esa persona.</p>
+      <div>${g.people.filter(x=>x.id!==p.id).map(x=>{ const on=(p.ex||[]).includes(x.id);
+        return `<div class="excl"><span class="nombre">${esc(x.name)}</span><button class="sw ${on?"on":""}" data-a="tog" data-id="${esc(x.id)}" aria-pressed="${on}">${on?"No se regalan":"Se pueden tocar"}</button></div>`; }).join("")}</div>
+      <button class="btn sol" data-a="cerrar">Listo</button>`;
+  }else if(m.t==="conf"){
+    c = `<h2>${esc(m.titulo)}</h2><p class="nota">${esc(m.texto)}</p>
+      <button class="btn rojo" data-a="si">${esc(m.si)}</button><button class="link" data-a="cerrar">Cancelar</button>`;
+  }else if(m.t==="link"){
+    c = `<h2>Link de ${esc(m.nombre)}</h2><p class="nota">No se pudo copiar solo. Mantené apretado el texto y copialo:</p><p class="info copia">${esc(m.url)}</p><button class="btn sol" data-a="cerrar">Listo</button>`;
+  }
+  return `<div class="velo" data-a="velo"><div class="sheet" role="dialog" aria-modal="true">${c}</div></div>`;
+}
+
+function render(){
+  $app.className = "app" + (S.view==="revela" ? " revela" : "");
+  $app.innerHTML = S.view==="revela" ? vRevela() : S.view==="grupo" ? vGrupo() : S.view==="home" ? vHome() : cabecera(false)+`<div class="titular"><p>Cargando tus grupos…</p></div>`;
+  $modal.innerHTML = vModal();
+}
+
+/* ===== acciones ===== */
+const acciones = {
+  home(){ S.view="home"; S.gid=null; },
+  abrir(el){ S.gid=el.dataset.id; S.view="grupo"; },
+  nuevo(){ S.modal={t:"form"}; },
+  editar(){ S.modal={t:"form",edit:true}; },
+  cerrar(){ S.modal=null; },
+  velo(el,ev){ if(ev.target===el) S.modal=null; else return false; },
+  quitar(el){ const g=grupo(), id=el.dataset.id; g.people=g.people.filter(p=>p.id!==id); g.people.forEach(p=>p.ex=(p.ex||[]).filter(x=>x!==id)); guardar(g); },
+  excl(el){ S.modal={t:"excl",id:el.dataset.id}; },
+  tog(el){ const g=grupo(), a=g.people.find(p=>p.id===S.modal.id), b=g.people.find(p=>p.id===el.dataset.id);
+    const on=(a.ex||[]).includes(b.id);
+    a.ex=(a.ex||[]).filter(x=>x!==b.id); b.ex=(b.ex||[]).filter(x=>x!==a.id);
+    if(!on){ a.ex.push(b.id); b.ex.push(a.id); }
+    guardar(g); },
+  sortear(){ const g=grupo(), r=sortear(g.people); if(!r){ toast("No hay sorteo posible con estas exclusiones."); return; }
+    g.draw=r; g.sent={}; guardar(g); toast("Sorteo hecho. Ahora enviá los resultados."); },
+  resortear(){ S.modal={t:"conf",que:"resortear",titulo:"¿Volver a sortear?",texto:"Los links que ya mandaste van a seguir mostrando el resultado anterior. Si seguís, avisales a todos que usen el link nuevo.",si:"Sí, deshacer el sorteo"}; },
+  borrar(){ S.modal={t:"conf",que:"borrar",titulo:"¿Eliminar este grupo?",texto:"Se borran los participantes y el sorteo. No se puede deshacer.",si:"Eliminar grupo"}; },
+  si(){ const g=grupo(), q=S.modal.que; S.modal=null;
+    if(q==="resortear"){ g.draw=null; g.sent={}; guardar(g); }
+    if(q==="borrar"){ S.groups=S.groups.filter(x=>x.id!==g.id); store.remove(g.id).catch(()=>toast("No se pudo eliminar.")); S.view="home"; S.gid=null; } },
+  wa(el){ const g=grupo(); g.sent=g.sent||{}; if(!g.sent[el.dataset.id]){ g.sent[el.dataset.id]=true; guardar(g); } setTimeout(render,400); return false; },
+  copiar(el){ const g=grupo(), p=g.people.find(x=>x.id===el.dataset.id), url=linkDe(g,p);
+    const falla=()=>{ S.modal={t:"link",nombre:p.name,url}; render(); };
+    try{ navigator.clipboard.writeText(url).then(()=>toast("Link de "+p.name+" copiado."), falla); }catch(e){ falla(); }
+    return false; },
+  revelar(){ S.revelado=true; confeti(); },
+  doblar(){ S.revelado=false; }
+};
+document.addEventListener("click", ev=>{
+  const el = ev.target.closest("[data-a]"); if(!el) return;
+  const fn = acciones[el.dataset.a]; if(!fn) return;
+  if(fn(el, ev)!==false) render();
+});
+document.addEventListener("submit", ev=>{
+  ev.preventDefault();
+  const f = ev.target.dataset.f;
+  if(f==="sumar"){
+    const g=grupo(), inp=document.getElementById("nuevo-nombre"), name=inp.value.trim();
+    if(!name) return;
+    if(g.people.some(p=>p.name.toLowerCase()===name.toLowerCase())){ toast("Ya hay alguien con ese nombre. Agregale el apellido o un apodo."); return; }
+    g.people.push({id:uid(), name, ex:[]}); guardar(g); render();
+    document.getElementById("nuevo-nombre")?.focus();
+  }
+  if(f==="grupo"){
+    const name=document.getElementById("g-nombre").value.trim(); if(!name) return;
+    const datos={name, date:document.getElementById("g-fecha").value, budget:Number(document.getElementById("g-monto").value)||0, msg:document.getElementById("g-msg").value.trim()};
+    let g;
+    if(S.modal.edit){ g=grupo(); Object.assign(g, datos); }
+    else{ g={id:uid(), ...datos, people:[], draw:null, sent:{}, created:Date.now()}; S.groups.push(g); S.gid=g.id; S.view="grupo"; }
+    S.modal=null; guardar(g); render();
+  }
+});
+
+/* ===== confeti ===== */
+function confeti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c=document.getElementById("confeti"), x=c.getContext("2d");
+  c.hidden=false; c.width=innerWidth; c.height=innerHeight;
+  const col=["#FFC83A","#FF574A","#FFFFFF","#FFF7E2"];
+  const ps=Array.from({length:90},()=>({x:c.width/2,y:c.height*.42,vx:(Math.random()-.5)*13,vy:-Math.random()*13-3,w:6+Math.random()*7,h:4+Math.random()*4,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:col[Math.floor(Math.random()*col.length)]}));
+  const t0=performance.now();
+  (function f(t){
+    const k=(t-t0)/1900; x.clearRect(0,0,c.width,c.height);
+    if(k>=1){ c.hidden=true; return; }
+    ps.forEach(p=>{ p.vy+=.38; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.globalAlpha=1-k*k; x.fillStyle=p.c; x.fillRect(-p.w/2,-p.h/2,p.w,p.h); x.restore(); });
+    requestAnimationFrame(f);
+  })(t0);
+}
+
+/* ===== arranque ===== */
+function verHash(){
+  const h = location.hash.replace(/^#/,"");
+  if(h.startsWith("am")){ S.slip=decodeSlip(h); S.view="revela"; S.revelado=false; render(); return true; }
+  return false;
+}
+window.addEventListener("hashchange", ()=>{ if(!verHash() && S.view==="revela"){ S.view = store ? "home" : "cargando"; render(); if(!store) arrancar(); } });
+async function arrancar(){
+  await initStore();
+  if(S.view!=="revela"){ S.view="home"; render(); }
+}
+if(!verHash()) arrancar();
+</script>
+</body>
+</html>
